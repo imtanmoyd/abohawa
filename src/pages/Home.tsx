@@ -133,7 +133,7 @@ export default function Home() {
         <div className="mx-auto max-w-4xl">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[
-              { value: "98%", label: "Prediction Accuracy" },
+              { value: "70%", label: "Prediction Accuracy" },
               { value: "50+", label: "Climate Metrics" },
               { value: "4", label: "Plant Species" },
               { value: "24/7", label: "Real-time Data" },
