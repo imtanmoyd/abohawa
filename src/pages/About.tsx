@@ -58,7 +58,7 @@ export default function About() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Sparkles className="w-5 h-5 text-eco-green" />
-              What is Smart Climate & Eco Insights?
+              What is Abohawa?
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">

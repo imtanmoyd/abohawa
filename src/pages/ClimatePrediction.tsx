@@ -13,7 +13,11 @@ import {
   Calendar,
   AlertCircle,
   Waves,
-  RefreshCw
+  RefreshCw,
+  Sun,
+  Eye,
+  Gauge,
+  ThermometerSun
 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 
@@ -254,60 +258,106 @@ export default function ClimatePrediction() {
               <div className="h-px flex-1 bg-border" />
             </div>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              <MetricCard
-                title="Rainfall"
-                value={prediction.rainfall_mm}
-                unit="mm"
-                icon={<Droplets className="w-6 h-6 text-eco-blue" />}
-                animation={<RainDroplets />}
-                delay={0}
-              />
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
               <MetricCard
                 title="Temperature"
                 value={prediction.temperature_c}
                 unit="°C"
                 icon={<Thermometer className="w-6 h-6 text-orange-500" />}
                 animation={<HeatShimmer />}
-                delay={100}
+                delay={0}
+              />
+              <MetricCard
+                title="Feels Like"
+                value={prediction.feels_like_c}
+                unit="°C"
+                icon={<ThermometerSun className="w-6 h-6 text-amber-500" />}
+                delay={50}
               />
               <MetricCard
                 title="Humidity"
                 value={prediction.humidity_percent}
                 unit="%"
                 icon={<Waves className="w-6 h-6 text-eco-teal" />}
-                delay={200}
+                delay={100}
+              />
+              <MetricCard
+                title="Rainfall"
+                value={prediction.rainfall_mm}
+                unit="mm"
+                icon={<Droplets className="w-6 h-6 text-eco-blue" />}
+                animation={<RainDroplets />}
+                delay={150}
               />
               <MetricCard
                 title="Wind Speed"
                 value={prediction.wind_speed_kmh}
                 unit="km/h"
                 icon={<WindmillIcon />}
+                delay={200}
+              />
+            </div>
+
+            {/* Secondary Metrics */}
+            <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
+              <MetricCard
+                title="UV Index"
+                value={prediction.uv_index}
+                unit=""
+                icon={<Sun className={`w-6 h-6 ${prediction.uv_index > 7 ? 'text-red-500' : prediction.uv_index > 5 ? 'text-orange-500' : 'text-yellow-500'}`} />}
+                delay={250}
+              />
+              <MetricCard
+                title="Air Quality Index"
+                value={prediction.air_quality_index}
+                unit="AQI"
+                icon={<AlertCircle className={`w-6 h-6 ${prediction.air_quality_index > 100 ? 'text-destructive' : prediction.air_quality_index > 50 ? 'text-yellow-500' : 'text-eco-green'}`} />}
                 delay={300}
               />
               <MetricCard
-                title="SPM (Air Quality)"
+                title="SPM"
                 value={prediction.spm_ugm3}
                 unit="μg/m³"
-                icon={<AlertCircle className={`w-6 h-6 ${prediction.spm_ugm3 > 100 ? 'text-destructive' : prediction.spm_ugm3 > 50 ? 'text-yellow-500' : 'text-eco-green'}`} />}
+                icon={<Cloud className={`w-6 h-6 ${prediction.spm_ugm3 > 100 ? 'text-destructive' : prediction.spm_ugm3 > 50 ? 'text-yellow-500' : 'text-eco-green'}`} />}
+                delay={350}
+              />
+              <MetricCard
+                title="Visibility"
+                value={prediction.visibility_km}
+                unit="km"
+                icon={<Eye className="w-6 h-6 text-eco-blue" />}
                 delay={400}
+              />
+              <MetricCard
+                title="Pressure"
+                value={prediction.pressure_hpa}
+                unit="hPa"
+                icon={<Gauge className="w-6 h-6 text-muted-foreground" />}
+                delay={450}
               />
             </div>
 
             {/* Air Quality Interpretation */}
             <Card 
-              variant={prediction.spm_ugm3 > 100 ? "default" : "eco"} 
-              className={`animate-fade-in-up delay-500 ${prediction.spm_ugm3 > 100 ? 'border-destructive/30' : ''}`}
+              variant={prediction.air_quality_index > 100 ? "default" : "eco"} 
+              className={`animate-fade-in-up delay-500 ${prediction.air_quality_index > 100 ? 'border-destructive/30' : ''}`}
             >
               <CardContent className="p-6">
                 <h3 className="font-display font-semibold mb-2">Air Quality Assessment</h3>
                 <p className="text-muted-foreground">
-                  {prediction.spm_ugm3 <= 50 
+                  {prediction.air_quality_index <= 50 
                     ? "✅ Excellent air quality! Safe for all outdoor activities."
-                    : prediction.spm_ugm3 <= 100 
+                    : prediction.air_quality_index <= 100 
                     ? "⚠️ Moderate air quality. Sensitive individuals should limit prolonged outdoor exertion."
                     : "❌ Poor air quality. Everyone should reduce outdoor activities."}
                 </p>
+                {prediction.uv_index > 5 && (
+                  <p className="text-muted-foreground mt-2">
+                    {prediction.uv_index > 7 
+                      ? "☀️ Very high UV index! Wear sunscreen and protective clothing."
+                      : "☀️ High UV index. Sun protection recommended."}
+                  </p>
+                )}
               </CardContent>
             </Card>
           </div>
