@@ -19,7 +19,7 @@ export function Footer() {
 
           {/* Links */}
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
-            <span>© {new Date().getFullYear()} Smart Climate & Eco Insights</span>
+            <span>© {new Date().getFullYear()} Abohawa</span>
           </div>
         </div>
       </div>
